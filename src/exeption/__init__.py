@@ -17,7 +17,7 @@ class CustomException(Exception):
 
         error_message = f"""
         Error occurred while executing [{file_name}] at try block 
-        [{try_block_line_number}] and exception block line Number
+        [{try_block_line_number}] and exception block line
         [{exception_block_line_number}]. Error message is [{error_message}]"""
         return error_message.strip()
 

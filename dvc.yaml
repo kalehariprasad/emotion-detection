@@ -1,0 +1,13 @@
+stages:
+  data_ingestion:
+    cmd: python src\data\data_injection.py
+    deps:
+    - src/data/data_injection.py
+    - src/custom_logging/__init__.py
+    - src/exeption/__init__.py
+    - src/utils/__init__.py
+    params:
+    - data_ingestion.test_size
+    outs:
+    - data\raw
+
