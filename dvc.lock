@@ -1,0 +1,30 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src\data\data_injection.py
+    deps:
+    - path: src/custom_logging/__init__.py
+      hash: md5
+      md5: 9ed3123c693209648be314b17311d447
+      size: 586
+    - path: src/data/data_injection.py
+      hash: md5
+      md5: b472201d00199d2ca57316151444a5ce
+      size: 955
+    - path: src/exeption/__init__.py
+      hash: md5
+      md5: 41ade915ec809435655b4def05c445e7
+      size: 1057
+    - path: src/utils/__init__.py
+      hash: md5
+      md5: 41487682b0062b572fda8f152cf576bb
+      size: 3164
+    params:
+      params.yaml:
+        data_ingestion.test_size: 0.3
+    outs:
+    - path: data\raw
+      hash: md5
+      md5: 03b3b604b1f92a17191a7fc947e576d6.dir
+      size: 827973
+      nfiles: 2
