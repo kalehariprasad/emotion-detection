@@ -32,7 +32,7 @@ def main():
         test_processed_data.to_csv(
             os.path.join(data_path, "test_processed.csv"), index=False
         )
-        logging.info('Processed data saved to %s', data_path)
+        logging.info('Processed data  saved to %s', data_path)
     except Exception as e:
         logging.info('Failed to complete the data transformation : %s', e)
         raise CustomException(e, sys)
