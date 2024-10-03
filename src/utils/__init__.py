@@ -6,6 +6,8 @@ import yaml
 import re
 import string
 import nltk
+from sklearn.feature_extraction.text import CountVectorizer
+import pickle
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from src.custom_logging import logging
@@ -41,10 +43,20 @@ class DataHandler:
         try:
             df = pd.read_csv(data_url)
             logging.info('Data loaded from %s', data_url)
+            # Calculate the percentage of null values in each column
+            null_percentage = df.isnull().mean() * 100
+            logging.info('Null value percentages:\n%s', null_percentage)
+            # Drop rows with null values if they are less than 5%
+            if null_percentage.max() < 5:
+                df = df.dropna()
+                logging.info(
+                    'Dropped rows with null values as they were less than 5% .'
+                    )
+            else:
+                logging.warning(
+                    'Null values exceed 5%, not dropping any rows.'
+                    )
             return df
-        except pd.errors.ParserError as e:
-            logging.info('Failed to parse the CSV file: %s', e)
-            raise CustomException(e, sys)
         except Exception as e:
             logging.info(
                 'Unexpected error occurred while loading data: %s', e)
@@ -196,4 +208,35 @@ class TextNormalizer:
             logging.info(
                 'Unexpected Error during text normalization: %s', e
             )
+            raise CustomException(e, sys)
+
+
+class Preprocessing:
+    def __init__(self):
+        pass
+
+    def apply_bow(self, train_data: pd.DataFrame, test_data: pd.DataFrame, max_features: int) -> tuple:
+        """Apply Count Vectorizer to the data."""
+        try:
+            vectorizer = CountVectorizer(max_features=max_features)
+            X_train = train_data['content'].values
+            y_train = train_data['sentiment'].values
+            X_test = test_data['content'].values
+            y_test = test_data['sentiment'].values
+
+            X_train_bow = vectorizer.fit_transform(X_train)
+            X_test_bow = vectorizer.transform(X_test)
+
+            train_df = pd.DataFrame(X_train_bow.toarray())
+            train_df['label'] = y_train
+
+            test_df = pd.DataFrame(X_test_bow.toarray())
+            test_df['label'] = y_test
+
+            pickle.dump(vectorizer, open('models/vectorizer.pkl', 'wb'))
+
+            logging.info('Bag of Words applied and data transformed')
+            return train_df, test_df
+        except Exception as e:
+            logging.info('Error during Bag of Words transformation: %s', e)
             raise CustomException(e, sys)

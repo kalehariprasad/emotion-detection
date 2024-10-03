@@ -48,4 +48,7 @@ jobs:
 
       - name: Linting data preprocessing
         run: |
-          flake8 src/data/data_prepeocessing.py
+          flake8 src/data/data_preprocessing.py
+      - name: Linting feature engineering
+        run: |
+          flake8 src\features\feature_engineering.py

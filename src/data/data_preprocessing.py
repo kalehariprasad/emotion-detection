@@ -19,7 +19,6 @@ def main():
         train_data = pd.read_csv('./data/raw/train.csv')
         test_data = pd.read_csv('./data/raw/test.csv')
         logging.info('Data loaded properly')
-
         # Transform the data
         train_processed_data = text_processor.normalize_text(train_data)
         test_processed_data = text_processor.normalize_text(test_data)
