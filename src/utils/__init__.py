@@ -71,21 +71,13 @@ class DataHandler:
             raise CustomException(e, sys)
 
     def save_data(
-        self, train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str
+        self, data: pd.DataFrame, file_path: str
     ) -> None:
         """Save the train and test datasets."""
         try:
-            raw_data_path = os.path.join(data_path, 'raw')
-            os.makedirs(raw_data_path, exist_ok=True)
-            train_data.to_csv(
-                os.path.join(raw_data_path, "train.csv"), index=False
-            )
-            test_data.to_csv(
-                os.path.join(raw_data_path, "test.csv"), index=False
-            )
-            logging.info(
-                'Train and test data saved to %s', raw_data_path
-            )
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            data.to_csv(file_path, index=False)
+            logging.info('Data saved to %s', file_path)
         except Exception as e:
             logging.info(
                 'Unexpected error occurred while saving the data: %s', e)
