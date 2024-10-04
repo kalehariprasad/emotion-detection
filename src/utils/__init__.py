@@ -82,6 +82,19 @@ class DataHandler:
             logging.info('Unexpected error during preprocessing: %s', e)
             raise CustomException(e, sys)
 
+    def save_object(
+        self, object, file_path: str
+    ) -> None:
+        try:
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, 'wb') as file:
+                pickle.dump(object, file)
+        except Exception as e:
+            logging.info(
+                "unexpected error occured while saving object"
+            )
+            raise CustomException(e, sys)
+
     def save_data(
         self, data: pd.DataFrame, file_path: str
     ) -> None:
@@ -215,7 +228,10 @@ class Preprocessing:
     def __init__(self):
         pass
 
-    def apply_bow(self, train_data: pd.DataFrame, test_data: pd.DataFrame, max_features: int) -> tuple:
+    def apply_bow(
+            self, train_data: pd.DataFrame, test_data: pd.DataFrame,
+            max_features: int
+            ) -> tuple:
         """Apply Count Vectorizer to the data."""
         try:
             vectorizer = CountVectorizer(max_features=max_features)

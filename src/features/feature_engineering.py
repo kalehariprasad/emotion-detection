@@ -21,17 +21,18 @@ def main():
         test_data = data_handler.load_data(
             './data/interim/test_processed.csv'
             )
-
         train_df, test_df = preprocessor.apply_bow(
             train_data, test_data, max_features
             )
-
         data_handler.save_data(
             train_df, os.path.join("./data", "processed", "train_bow.csv")
             )
         data_handler.save_data(
             test_df, os.path.join("./data", "processed", "test_bow.csv")
             )
+        data_handler.save_object(
+                preprocessor, os.path.join("./models", "preprocessor.pkl")
+        )
     except Exception as e:
         logging.info(
             'Failed to complete the feature engineering process: %s', e
