@@ -52,6 +52,12 @@ jobs:
       - name: Linting feature engineering
         run: |
           flake8 src/features/feature_engineering.py
+      - name: linting model building
+        run: |
+          flake8 src/models/train_model.py
+      - name: linting model evaluation
+        run: |
+          flake8 src/models/model_evaluation.py
       - name: run pipeline 
         run: |
           dvc repro

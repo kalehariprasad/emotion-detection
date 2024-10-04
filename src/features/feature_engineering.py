@@ -31,7 +31,8 @@ def main():
             test_df, os.path.join("./data", "processed", "test_bow.csv")
             )
         data_handler.save_object(
-                preprocessor, os.path.join("./models", "preprocessor.pkl")
+                preprocessor, os.path.join(
+                    "./models", "objects", "preprocessor.pkl")
         )
     except Exception as e:
         logging.info(

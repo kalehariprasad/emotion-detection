@@ -30,4 +30,16 @@ stages:
     - data/interim
     outs:
     - data/processed
+    - models/objects
+  model training:
+    cmd: python src/models/train_model.py
+    deps:
+    - src/models/train_model.py
+    - src/custom_logging/__init__.py
+    - src/exeption/__init__.py
+    - src/utils/__init__.py
+    - data/processed
+    outs:
+    - models/model
+ 
 

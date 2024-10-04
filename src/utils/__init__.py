@@ -6,7 +6,12 @@ import yaml
 import re
 import string
 import nltk
+import json
+from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, roc_auc_score
+    )
 import pickle
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
@@ -239,20 +244,105 @@ class Preprocessing:
             y_train = train_data['sentiment'].values
             X_test = test_data['content'].values
             y_test = test_data['sentiment'].values
-
             X_train_bow = vectorizer.fit_transform(X_train)
             X_test_bow = vectorizer.transform(X_test)
-
             train_df = pd.DataFrame(X_train_bow.toarray())
             train_df['label'] = y_train
-
             test_df = pd.DataFrame(X_test_bow.toarray())
             test_df['label'] = y_test
-
-            pickle.dump(vectorizer, open('models/vectorizer.pkl', 'wb'))
-
+            os.makedirs(os.path.dirname(
+                'models/objects/vectorizer.pkl'), exist_ok=True
+                )
+            pickle.dump(
+                vectorizer, open('models/objects/vectorizer.pkl', 'wb')
+                )
             logging.info('Bag of Words applied and data transformed')
             return train_df, test_df
         except Exception as e:
             logging.info('Error during Bag of Words transformation: %s', e)
+            raise CustomException(e, sys)
+
+
+class Model:
+    def __init__(self) -> None:
+        pass
+
+    def train_model(
+            self, X_train: np.ndarray, y_train: np.ndarray
+            ) -> LogisticRegression:
+        try:
+            clf = LogisticRegression(
+                C=1, solver='liblinear', penalty='l2'
+                )
+            clf.fit(X_train, y_train)
+            logging.info('Model training completed')
+            return clf
+        except Exception as e:
+            logging.info(
+                'Unexpected error occurred while trainig: %s', e
+                )
+            raise CustomException(e, sys)
+
+    def load_model(self, file_path: str):
+        """Load the trained model from a file."""
+        try:
+            with open(file_path, 'rb') as file:
+                model = pickle.load(file)
+            logging.info('Model loaded from %s', file_path)
+            return model
+        except FileNotFoundError:
+            logging.info('File not found: %s', file_path)
+            raise
+        except Exception as e:
+            logging.info(
+                'Unexpected error occurred while loading the model: %s', e
+                )
+            raise CustomException(e, sys)
+
+    def evaluate_model(
+            self, clf, X_test: np.ndarray, y_test: np.ndarray
+            ) -> dict:
+        """Evaluate the model and return the evaluation metrics."""
+        try:
+            y_pred = clf.predict(X_test)
+            y_pred_proba = clf.predict_proba(X_test)[:, 1]
+
+            accuracy = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred)
+            recall = recall_score(y_test, y_pred)
+            auc = roc_auc_score(y_test, y_pred_proba)
+
+            metrics_dict = {
+                'accuracy': accuracy,
+                'precision': precision,
+                'recall': recall,
+                'auc': auc
+            }
+            logging.info('Model evaluation metrics calculated')
+            return metrics_dict
+        except Exception as e:
+            logging.info('Error during model evaluation: %s', e)
+            raise CustomException(e, sys)
+
+    def save_metrics(self, metrics: dict, file_path: str) -> None:
+        """Save the evaluation metrics to a JSON file."""
+        try:
+            with open(file_path, 'w') as file:
+                json.dump(metrics, file, indent=4)
+            logging.info('Metrics saved to %s', file_path)
+        except Exception as e:
+            logging.info('Error occurred while saving the metrics: %s', e)
+            raise CustomException(e, sys)
+
+    def save_model_info(
+            self, run_id: str, model_path: str, file_path: str
+            ) -> None:
+        """Save the model run ID and path to a JSON file."""
+        try:
+            model_info = {'run_id': run_id, 'model_path': model_path}
+            with open(file_path, 'w') as file:
+                json.dump(model_info, file, indent=4)
+            logging.info('Model info saved to %s', file_path)
+        except Exception as e:
+            logging.info('Error occurred while saving the model info: %s', e)
             raise CustomException(e, sys)
