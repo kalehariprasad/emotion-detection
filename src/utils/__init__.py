@@ -17,8 +17,8 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from src.custom_logging import logging
 from src.exeption import CustomException
-nltk.download('wordnet')
-nltk.download('stopwords')
+nltk.download('wordnet', quiet=True)
+nltk.download('stopwords', quiet=True)
 
 
 class DataHandler:
@@ -300,8 +300,7 @@ class Model:
             raise CustomException(e, sys)
 
     def evaluate_model(
-            self, clf, X_test: np.ndarray, y_test: np.ndarray
-            ) -> dict:
+            self, clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
         """Evaluate the model and return the evaluation metrics."""
         try:
             y_pred = clf.predict(X_test)
