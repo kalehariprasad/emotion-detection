@@ -20,4 +20,14 @@ stages:
     - data/raw
     outs:
     - data/interim
+    feature_engineering:
+    cmd: python src/data/data_prepeocessing.py
+    deps:
+    - src/data/data_prepeocessing.py
+    - src/custom_logging/__init__.py
+    - src/exeption/__init__.py
+    - src/utils/__init__.py
+    - data/raw
+    outs:
+    - data/interim
 

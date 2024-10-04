@@ -3,7 +3,7 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   project-testing:
@@ -49,3 +49,5 @@ jobs:
       - name: Linting data preprocessing
         run: |
           flake8 src/data/data_prepeocessing.py
+      - name: run pipeline
+      
