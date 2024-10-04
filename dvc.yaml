@@ -1,6 +1,6 @@
 stages:
   data_ingestion:
-    cmd: python src\data\data_injection.py
+    cmd: python src/data/data_injection.py
     deps:
     - src/data/data_injection.py
     - src/custom_logging/__init__.py
