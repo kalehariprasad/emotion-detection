@@ -52,3 +52,6 @@ jobs:
       - name: Linting feature engineering
         run: |
           flake8 src\features\feature_engineering.py
+      - name: run pipeline 
+        run: |
+          dvc repro
