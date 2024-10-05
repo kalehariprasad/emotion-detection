@@ -48,7 +48,6 @@ jobs:
 
       - name: Linting data preprocessing
         run: |
-<<<<<<< HEAD
           flake8 src/data/data_preprocessing.py
       - name: Linting feature engineering
         run: |
@@ -62,8 +61,6 @@ jobs:
       - name: run pipeline 
         run: |
           dvc repro
-=======
           flake8 src/data/data_prepeocessing.py
       - name: run pipeline
-      
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
+
