@@ -9,23 +9,33 @@ stages:
       size: 586
     - path: src/data/data_injection.py
       hash: md5
+<<<<<<< HEAD
       md5: 82db549f9d2f258bbc2668e862caad97
       size: 1285
+=======
+      md5: 4aad9bb7e71cf67adf08d13d4cc4db49
+      size: 1262
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
+<<<<<<< HEAD
       md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
       size: 13137
+=======
+      md5: 2ff835bb32f7ca2a8511242268c495f7
+      size: 7355
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     params:
       params.yaml:
-        data_ingestion.test_size: 0.3
+        data_ingestion.test_size: 0.25
     outs:
     - path: data/raw
       hash: md5
-      md5: 03b3b604b1f92a17191a7fc947e576d6.dir
+      md5: 3a301dd6a0b3caa261222635788eb1a5.dir
       size: 827973
       nfiles: 2
   data_preprocessing:
@@ -33,7 +43,7 @@ stages:
     deps:
     - path: data/raw
       hash: md5
-      md5: 03b3b604b1f92a17191a7fc947e576d6.dir
+      md5: 3a301dd6a0b3caa261222635788eb1a5.dir
       size: 827973
       nfiles: 2
     - path: src/custom_logging/__init__.py
@@ -42,20 +52,30 @@ stages:
       size: 586
     - path: src/data/data_preprocessing.py
       hash: md5
+<<<<<<< HEAD
       md5: ff61a39f2bc2f40aafe06d5826374d25
       size: 1480
+=======
+      md5: 268fd00c7970900eba8886ef8743f325
+      size: 1555
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
+<<<<<<< HEAD
       md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
       size: 13137
+=======
+      md5: 2ff835bb32f7ca2a8511242268c495f7
+      size: 7355
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     outs:
     - path: data/interim
       hash: md5
-      md5: 994c49fadcae57312a3667f2eba4dc35.dir
+      md5: 4616fdeb50815ff81106f3ec9d0fa432.dir
       size: 572633
       nfiles: 2
   feature engineering:

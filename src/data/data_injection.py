@@ -22,7 +22,11 @@ def main():
             final_df, test_size=test_size, random_state=42
         )
         data_path = os.path.join(os.getcwd(), "data")
+<<<<<<< HEAD
         raw_data_path = os.path.join(data_path, "raw")  # Corrected this line
+=======
+        raw_data_path = os.path.join(data_path, "raw")
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
         train_file_path = os.path.join(raw_data_path, "train.csv")
         test_file_path = os.path.join(raw_data_path, "test.csv")
         data_handler.save_data(train_data, train_file_path)

@@ -20,6 +20,7 @@ stages:
     - data/raw
     outs:
     - data/interim
+<<<<<<< HEAD
   feature engineering:
     cmd: python src/features/feature_engineering.py
     deps:
@@ -42,4 +43,16 @@ stages:
     outs:
     - models/model
  
+=======
+    feature_engineering:
+    cmd: python src/data/data_prepeocessing.py
+    deps:
+    - src/data/data_prepeocessing.py
+    - src/custom_logging/__init__.py
+    - src/exeption/__init__.py
+    - src/utils/__init__.py
+    - data/raw
+    outs:
+    - data/interim
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
 
