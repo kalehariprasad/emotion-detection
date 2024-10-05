@@ -3,7 +3,7 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - main
+      - new
 
 jobs:
   project-testing:
@@ -61,3 +61,6 @@ jobs:
       - name: run pipeline 
         run: |
           dvc repro
+          flake8 src/data/data_prepeocessing.py
+      - name: run pipeline
+
