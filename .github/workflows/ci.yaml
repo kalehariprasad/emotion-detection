@@ -36,7 +36,7 @@ jobs:
 
       - name: Linting exception
         run: |
-          flake8 src/exception/__init__.py
+          flake8 src/exeption/__init__.py
 
       - name: Linting utils
         run: |
