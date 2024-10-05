@@ -36,7 +36,7 @@ jobs:
 
       - name: Linting exception
         run: |
-          flake8 src/exeption/__init__.py
+          flake8 src/exception/__init__.py
 
       - name: Linting utils
         run: |
@@ -49,18 +49,19 @@ jobs:
       - name: Linting data preprocessing
         run: |
           flake8 src/data/data_preprocessing.py
+
       - name: Linting feature engineering
         run: |
           flake8 src/features/feature_engineering.py
-      - name: linting model building
+
+      - name: Linting model building
         run: |
           flake8 src/models/train_model.py
-      - name: linting model evaluation
+
+      - name: Linting model evaluation
         run: |
           flake8 src/models/model_evaluation.py
-      - name: run pipeline 
+
+      - name: Run pipeline with DVC
         run: |
           dvc repro
-          flake8 src/data/data_prepeocessing.py
-      - name: run pipeline
-
