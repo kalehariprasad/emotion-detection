@@ -6,12 +6,19 @@ import yaml
 import re
 import string
 import nltk
+import json
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, roc_auc_score
+    )
+import pickle
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from src.custom_logging import logging
 from src.exeption import CustomException
-nltk.download('wordnet')
-nltk.download('stopwords')
+nltk.download('wordnet', quiet=True)
+nltk.download('stopwords', quiet=True)
 
 
 class DataHandler:
@@ -41,10 +48,20 @@ class DataHandler:
         try:
             df = pd.read_csv(data_url)
             logging.info('Data loaded from %s', data_url)
+            # Calculate the percentage of null values in each column
+            null_percentage = df.isnull().mean() * 100
+            logging.info('Null value percentages:\n%s', null_percentage)
+            # Drop rows with null values if they are less than 5%
+            if null_percentage.max() < 5:
+                df = df.dropna()
+                logging.info(
+                    'Dropped rows with null values as they were less than 5% .'
+                    )
+            else:
+                logging.warning(
+                    'Null values exceed 5%, not dropping any rows.'
+                    )
             return df
-        except pd.errors.ParserError as e:
-            logging.info('Failed to parse the CSV file: %s', e)
-            raise CustomException(e, sys)
         except Exception as e:
             logging.info(
                 'Unexpected error occurred while loading data: %s', e)
@@ -70,14 +87,34 @@ class DataHandler:
             logging.info('Unexpected error during preprocessing: %s', e)
             raise CustomException(e, sys)
 
+    def save_object(
+        self, object, file_path: str
+    ) -> None:
+        try:
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, 'wb') as file:
+                pickle.dump(object, file)
+        except Exception as e:
+            logging.info(
+                "unexpected error occured while saving object"
+            )
+            raise CustomException(e, sys)
+
     def save_data(
         self, data: pd.DataFrame, file_path: str
     ) -> None:
         """Save the train and test datasets."""
         try:
+<<<<<<< HEAD
+            # Create the directory if it doesn't exist
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            data.to_csv(file_path, index=False)
+            logging.info('Processed data  saved to %s', file_path)
+=======
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
             data.to_csv(file_path, index=False)
             logging.info('Data saved to %s', file_path)
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
         except Exception as e:
             logging.info(
                 'Unexpected error occurred while saving the data: %s', e)
@@ -195,4 +232,122 @@ class TextNormalizer:
             logging.info(
                 'Unexpected Error during text normalization: %s', e
             )
+            raise CustomException(e, sys)
+
+
+class Preprocessing:
+    def __init__(self):
+        pass
+
+    def apply_bow(
+            self, train_data: pd.DataFrame, test_data: pd.DataFrame,
+            max_features: int
+            ) -> tuple:
+        """Apply Count Vectorizer to the data."""
+        try:
+            vectorizer = CountVectorizer(max_features=max_features)
+            X_train = train_data['content'].values
+            y_train = train_data['sentiment'].values
+            X_test = test_data['content'].values
+            y_test = test_data['sentiment'].values
+            X_train_bow = vectorizer.fit_transform(X_train)
+            X_test_bow = vectorizer.transform(X_test)
+            train_df = pd.DataFrame(X_train_bow.toarray())
+            train_df['label'] = y_train
+            test_df = pd.DataFrame(X_test_bow.toarray())
+            test_df['label'] = y_test
+            os.makedirs(os.path.dirname(
+                'models/objects/vectorizer.pkl'), exist_ok=True
+                )
+            pickle.dump(
+                vectorizer, open('models/objects/vectorizer.pkl', 'wb')
+                )
+            logging.info('Bag of Words applied and data transformed')
+            return train_df, test_df
+        except Exception as e:
+            logging.info('Error during Bag of Words transformation: %s', e)
+            raise CustomException(e, sys)
+
+
+class Model:
+    def __init__(self) -> None:
+        pass
+
+    def train_model(
+            self, X_train: np.ndarray, y_train: np.ndarray
+            ) -> LogisticRegression:
+        try:
+            clf = LogisticRegression(
+                C=1, solver='liblinear', penalty='l2'
+                )
+            clf.fit(X_train, y_train)
+            logging.info('Model training completed')
+            return clf
+        except Exception as e:
+            logging.info(
+                'Unexpected error occurred while trainig: %s', e
+                )
+            raise CustomException(e, sys)
+
+    def load_model(self, file_path: str):
+        """Load the trained model from a file."""
+        try:
+            with open(file_path, 'rb') as file:
+                model = pickle.load(file)
+            logging.info('Model loaded from %s', file_path)
+            return model
+        except FileNotFoundError:
+            logging.info('File not found: %s', file_path)
+            raise
+        except Exception as e:
+            logging.info(
+                'Unexpected error occurred while loading the model: %s', e
+                )
+            raise CustomException(e, sys)
+
+    def evaluate_model(
+            self, clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
+        """Evaluate the model and return the evaluation metrics."""
+        try:
+            y_pred = clf.predict(X_test)
+            y_pred_proba = clf.predict_proba(X_test)[:, 1]
+
+            accuracy = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred)
+            recall = recall_score(y_test, y_pred)
+            auc = roc_auc_score(y_test, y_pred_proba)
+
+            metrics_dict = {
+                'accuracy': accuracy,
+                'precision': precision,
+                'recall': recall,
+                'auc': auc
+            }
+            logging.info('Model evaluation metrics calculated')
+            return metrics_dict
+        except Exception as e:
+            logging.info('Error during model evaluation: %s', e)
+            raise CustomException(e, sys)
+
+    def save_metrics(self, metrics: dict, file_path: str) -> None:
+        """Save the evaluation metrics to a JSON file."""
+        try:
+            with open(file_path, 'w') as file:
+                json.dump(metrics, file, indent=4)
+            logging.info('Metrics saved to %s', file_path)
+        except Exception as e:
+            logging.info('Error occurred while saving the metrics: %s', e)
+            raise CustomException(e, sys)
+
+    def save_model_info(
+            self, run_id: str, model_path: str, file_path: str
+            ) -> None:
+        """Save the model run ID and path to a JSON file."""
+        try:
+            model_info = {'run_id': run_id, 'model_path': model_path}
+            with open(file_path, 'w') as file:
+                json.dump(model_info, file, indent=4)
+            logging.info('Model info saved to %s', file_path)
+        except Exception as e:
+            logging.info('Error occurred while saving the model info: %s', e)
             raise CustomException(e, sys)

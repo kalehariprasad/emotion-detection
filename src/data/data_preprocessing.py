@@ -10,6 +10,7 @@ from src.utils import DataHandler
 
 
 text_processor = TextNormalizer()  # Corrected variable name for consistency
+data_handler = DataHandler(params_path='params.yaml')
 
 
 def main():
@@ -19,11 +20,9 @@ def main():
         train_data = pd.read_csv('./data/raw/train.csv')
         test_data = pd.read_csv('./data/raw/test.csv')
         logging.info('Data loaded properly')
-
         # Transform the data
         train_processed_data = text_processor.normalize_text(train_data)
         test_processed_data = text_processor.normalize_text(test_data)
-
         # Store the data inside data/interim
         data_path = os.path.join("./data", "interim")
         os.makedirs(data_path, exist_ok=True)
@@ -35,7 +34,10 @@ def main():
             )
         data_handler.save_data(train_processed_data, train_processed_data_path)
         data_handler.save_data(test_processed_data, test_processed_data_path)
+<<<<<<< HEAD:src/data/data_preprocessing.py
+=======
         logging.info('Processed data saved to %s', data_path)
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0:src/data/data_prepeocessing.py
     except Exception as e:
         logging.info('Failed to complete the data transformation : %s', e)
         raise CustomException(e, sys)

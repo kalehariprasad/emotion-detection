@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   data_ingestion:
-    cmd: python src\data\data_injection.py
+    cmd: python src/data/data_injection.py
     deps:
     - path: src/custom_logging/__init__.py
       hash: md5
@@ -9,16 +9,26 @@ stages:
       size: 586
     - path: src/data/data_injection.py
       hash: md5
+<<<<<<< HEAD
+      md5: 82db549f9d2f258bbc2668e862caad97
+      size: 1285
+=======
       md5: 4aad9bb7e71cf67adf08d13d4cc4db49
       size: 1262
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
+<<<<<<< HEAD
+      md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
+      size: 13137
+=======
       md5: 2ff835bb32f7ca2a8511242268c495f7
       size: 7355
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     params:
       params.yaml:
         data_ingestion.test_size: 0.25
@@ -29,7 +39,7 @@ stages:
       size: 827973
       nfiles: 2
   data_preprocessing:
-    cmd: python src/data/data_prepeocessing.py
+    cmd: python src/data/data_preprocessing.py
     deps:
     - path: data/raw
       hash: md5
@@ -40,21 +50,96 @@ stages:
       hash: md5
       md5: 9ed3123c693209648be314b17311d447
       size: 586
-    - path: src/data/data_prepeocessing.py
+    - path: src/data/data_preprocessing.py
       hash: md5
+<<<<<<< HEAD
+      md5: ff61a39f2bc2f40aafe06d5826374d25
+      size: 1480
+=======
       md5: 268fd00c7970900eba8886ef8743f325
       size: 1555
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
+<<<<<<< HEAD
+      md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
+      size: 13137
+=======
       md5: 2ff835bb32f7ca2a8511242268c495f7
       size: 7355
+>>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     outs:
     - path: data/interim
       hash: md5
       md5: 4616fdeb50815ff81106f3ec9d0fa432.dir
       size: 572633
       nfiles: 2
+  feature engineering:
+    cmd: python src/features/feature_engineering.py
+    deps:
+    - path: data/interim
+      hash: md5
+      md5: 994c49fadcae57312a3667f2eba4dc35.dir
+      size: 572633
+      nfiles: 2
+    - path: src/custom_logging/__init__.py
+      hash: md5
+      md5: 9ed3123c693209648be314b17311d447
+      size: 586
+    - path: src/exeption/__init__.py
+      hash: md5
+      md5: 4abe8ec98542ccc960ae477582dd3bc6
+      size: 1056
+    - path: src/features/feature_engineering.py
+      hash: md5
+      md5: 64750d6a2aee848c1988255f1cdf6139
+      size: 1372
+    - path: src/utils/__init__.py
+      hash: md5
+      md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
+      size: 13137
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: b66ec2ca69a81899f1136a3912300503.dir
+      size: 103798910
+      nfiles: 2
+    - path: models/objects
+      hash: md5
+      md5: b500f74abdac42017a822811bac1f65d.dir
+      size: 140847
+      nfiles: 2
+  model training:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: b66ec2ca69a81899f1136a3912300503.dir
+      size: 103798910
+      nfiles: 2
+    - path: src/custom_logging/__init__.py
+      hash: md5
+      md5: 9ed3123c693209648be314b17311d447
+      size: 586
+    - path: src/exeption/__init__.py
+      hash: md5
+      md5: 4abe8ec98542ccc960ae477582dd3bc6
+      size: 1056
+    - path: src/models/train_model.py
+      hash: md5
+      md5: aab92265492d2b00f53d149f049807e8
+      size: 744
+    - path: src/utils/__init__.py
+      hash: md5
+      md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
+      size: 13137
+    outs:
+    - path: models/model
+      hash: md5
+      md5: 437fe6e6e639ce5b371539b6e40875fe.dir
+      size: 40717
+      nfiles: 1
