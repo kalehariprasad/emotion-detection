@@ -17,7 +17,7 @@ model = Model()
 
 
 def main():
-    mlflow.set_experiment("Github-actions-dvc-pipeline")
+    mlflow.set_experiment("dvc-pipeline")
     with mlflow.start_run() as run:  # Start an MLflow run
         try:
             clf = model.load_model('./models/model/model.pkl')
@@ -43,9 +43,9 @@ def main():
             # Log the metrics file to MLflow
             mlflow.log_artifact('reports/metrics.json')
             # Log the model info file to MLflow
-            mlflow.log_artifact('reports/model_info.json')
+            mlflow.log_artifact('reports/experiment_info.json')
             # Log the evaluation errors log file to MLflow
-            mlflow.log_artifact('model_evaluation_errors.log')
+            #mlflow.log_artifact('model_evaluation_errors.log')
         except Exception as e:
             logging.info(
                 'Failed to complete the model evaluation process: %s', e
