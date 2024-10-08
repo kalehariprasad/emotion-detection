@@ -63,5 +63,7 @@ jobs:
           flake8 src/models/model_evaluation.py
 
       - name: Run pipeline with DVC
+        env:
+          DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
         run: |
           dvc repro
