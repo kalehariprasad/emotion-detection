@@ -1,4 +1,5 @@
 import sys
+import os
 from src.custom_logging import logging
 from src.exeption import CustomException
 from src.utils import Model
@@ -6,12 +7,17 @@ from src.utils import DataHandler
 import mlflow
 import dagshub
 
-mlflow.set_tracking_uri(
-    'https://dagshub.com/kalehariprasad/emotion-detection.mlflow'
-    )
-dagshub.init(
-    repo_owner='kalehariprasad', repo_name='emotion-detection', mlflow=True
-    )
+
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+    
+dagshub_url = "https://dagshub.com"
+repo_owner = "kalehariprasad"
+repo_name = "emotion-detection"
 data_handler = DataHandler(params_path='params.yaml')
 model = Model()
 

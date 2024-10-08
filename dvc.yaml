@@ -41,5 +41,14 @@ stages:
     - data/processed
     outs:
     - models/model
+  model Evaluation:
+    cmd: python src/models/model_evaluation.py
+    deps:
+    - src/models/src/models/model_evaluation.py
+    - src/custom_logging/__init__.py
+    - src/exeption/__init__.py
+    - src/utils/__init__.py
+    - models/model
+   
  
 
