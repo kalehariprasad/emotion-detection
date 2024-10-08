@@ -45,7 +45,7 @@ def main():
             # Log the model info file to MLflow
             mlflow.log_artifact('reports/experiment_info.json')
             # Log the evaluation errors log file to MLflow
-            #mlflow.log_artifact('model_evaluation_errors.log')
+            # mlflow.log_artifact('model_evaluation_errors.log')
         except Exception as e:
             logging.info(
                 'Failed to complete the model evaluation process: %s', e
