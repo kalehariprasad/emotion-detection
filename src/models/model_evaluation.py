@@ -5,7 +5,6 @@ from src.exeption import CustomException
 from src.utils import Model
 from src.utils import DataHandler
 import mlflow
-import dagshub
 
 
 dagshub_token = os.getenv("DAGSHUB_PAT")
