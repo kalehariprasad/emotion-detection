@@ -12,10 +12,11 @@ if not dagshub_token:
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
 os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+dagshub_url = "https://dagshub.com"
 repo_owner = "kalehariprasad"
 repo_name = "emotion-detection"
-dagshub_url = f"https://dagshub.com/{repo_owner}/{repo_name}"
-mlflow.set_tracking_uri(dagshub_url)
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 mlflow_instance = MLFlowInstance()
 
 
