@@ -24,7 +24,7 @@ def main():
     mlflow.set_experiment("dvc-pipeline")
     with mlflow.start_run() as run:  # Start an MLflow run
         try:
-            clf = model.load_model('./models/model.pkl')
+            clf = model.load_model('./models/model/model.pkl')
             test_data = data_handler.load_data('./data/processed/test_bow.csv')
             X_test = test_data.iloc[:, :-1].values
             y_test = test_data.iloc[:, -1].values
@@ -47,9 +47,9 @@ def main():
             # Log the metrics file to MLflow
             mlflow.log_artifact('reports/metrics.json')
             # Log the model info file to MLflow
-            mlflow.log_artifact('reports/model_info.json')
+            mlflow.log_artifact('reports/experiment_info.json')
             # Log the evaluation errors log file to MLflow
-            mlflow.log_artifact('model_evaluation_errors.log')
+            # mlflow.log_artifact('model_evaluation_errors.log')
         except Exception as e:
             logging.info(
                 'Failed to complete the model evaluation process: %s', e
