@@ -20,7 +20,7 @@ stages:
     - data/raw
     outs:
     - data/interim
-  feature engineering:
+  feature_engineering:
     cmd: python src/features/feature_engineering.py
     deps:
     - src/features/feature_engineering.py
@@ -31,7 +31,7 @@ stages:
     outs:
     - data/processed
     - models/objects
-  model training:
+  model_training:
     cmd: python src/models/train_model.py
     deps:
     - src/models/train_model.py
@@ -41,7 +41,7 @@ stages:
     - data/processed
     outs:
     - models/model
-  model Evaluation:
+  model_evaluation:
     cmd: python src/models/model_evaluation.py
     deps:
     - src/models/model_evaluation.py
@@ -51,7 +51,7 @@ stages:
     - models/model
     outs:
     - reports/
-    model registreation:
+  model_registreation:
     cmd: python src/models/register_model.py
     deps:
     - src/models/register_model.py
