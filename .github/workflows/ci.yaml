@@ -61,6 +61,10 @@ jobs:
       - name: Linting model evaluation
         run: |
           flake8 src/models/model_evaluation.py
+      
+      - name: linting register model
+        run: |
+          flake8 src/models/register_model.py
 
       - name: Run pipeline with DVC
         env:

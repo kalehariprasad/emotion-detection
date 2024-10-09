@@ -348,3 +348,47 @@ class Model:
         except Exception as e:
             logging.info('Error occurred while saving the model info: %s', e)
             raise CustomException(e, sys)
+
+
+class mlflow:
+    def __init__(self):
+        pass
+
+    def load_model_info(self, file_path: str) -> dict:
+        """Load the model info from a JSON file."""
+        try:
+            with open(file_path, 'r') as file:
+                model_info = json.load(file)
+            logging.info('Model info loaded from %s', file_path)
+            return model_info
+        except FileNotFoundError:
+            logging.info('File not found: %s', file_path)
+            raise
+        except Exception as e:
+            logging.info(
+                'Unexpected error occurred while loading the model info: %s', e
+                )
+            raise CustomException(e, sys)
+
+    def register_model(self, model_name: str, model_info: dict):
+        """Register the model to the MLflow Model Registry."""
+        try:
+            model_uri = (
+                f"runs:/{model_info['run_id']}/"
+                f"{model_info['model_path']}"
+            )
+            # Register the model
+            model_version = mlflow.register_model(model_uri, model_name)
+            # Transition the model to "Staging" stage
+            client = mlflow.tracking.MlflowClient()
+            client.transition_model_version_stage(
+                name=model_name,
+                version=model_version.version,
+                stage="Staging"
+            )
+            logging.info(
+                f'Model {model_name} version {model_version.version} .'
+            )
+        except Exception as e:
+            logging.info('Error during model registration: %s', e)
+            raise CustomException(e, sys)
