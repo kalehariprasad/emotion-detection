@@ -8,6 +8,7 @@ import re
 import string
 import nltk
 import json
+import mlflow
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import (
@@ -350,7 +351,7 @@ class Model:
             raise CustomException(e, sys)
 
 
-class mlflow:
+class MLFlowInstance:
     def __init__(self):
         pass
 
@@ -370,7 +371,7 @@ class mlflow:
                 )
             raise CustomException(e, sys)
 
-    def register_model(self, model_name: str, model_info: dict):
+    def register_model(self,  model_name: str, model_info: dict):
         """Register the model to the MLflow Model Registry."""
         try:
             model_uri = (

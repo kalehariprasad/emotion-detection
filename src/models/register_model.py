@@ -2,7 +2,7 @@ import sys
 import os
 from src.custom_logging import logging
 from src.exeption import CustomException
-from src.utils import mlflow
+from src.utils import MLFlowInstance
 
 
 dagshub_token = os.getenv("DAGSHUB_PAT")
@@ -14,15 +14,16 @@ os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 dagshub_url = "https://dagshub.com"
 repo_owner = "kalehariprasad"
 repo_name = "emotion-detection"
-mlflow = mlflow()
+mlflow_instance = MLFlowInstance()
 
 
 def main():
     try:
         model_info_path = 'reports/experiment_info.json'
-        model_info = mlflow.load_model_info(model_info_path)
+        model_info = mlflow_instance.load_model_info(model_info_path)
         model_name = "my_model"
-        mlflow.register_model(model_name, model_info)
+        logging.info(f'model info is { model_info}')
+        mlflow_instance.register_model(model_name, model_info)
     except Exception as e:
         logging.info(
             'Failed to complete the model registration process: %s', e
