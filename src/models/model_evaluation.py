@@ -23,7 +23,7 @@ model = Model()
 
 
 def main():
-    mlflow.set_experiment("dvc-pipeline-github-actions")
+    mlflow.set_experiment("dvc-pipeline")
     with mlflow.start_run() as run:  # Start an MLflow run
         try:
             clf = model.load_model('./models/model/model.pkl')
