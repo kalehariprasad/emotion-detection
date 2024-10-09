@@ -17,6 +17,8 @@ repo_owner = "kalehariprasad"
 repo_name = "emotion-detection"
 dagshub_url = f"https://dagshub.com/{repo_owner}/{repo_name}"
 mlflow.set_tracking_uri(dagshub_url)
+mlflow.set_tracking_uri(dagshub_url)
+data_handler = DataHandler(params_path='params.yaml')
 model = Model()
 
 
