@@ -393,3 +393,44 @@ class MLFlowInstance:
         except Exception as e:
             logging.info('Error during model registration: %s', e)
             raise CustomException(e, sys)
+
+    def get_latest_model_version(self, model_name: str) -> str:
+        """Get the latest version of the model."""
+        client = mlflow.MlflowClient()
+        registered_models = client.search_registered_models(
+            filter_string=f"name='{model_name}'"
+            )
+        if registered_models:
+            model = registered_models[0]
+            if model.latest_versions:
+                latest_version = max(
+                    int(version.version) for version in model.latest_versions
+                    )
+                logging.info(
+                    f'Latest version of {model_name} is {latest_version}.'
+                    )
+                return str(latest_version)
+        logging.info(f'No versions found for model {model_name}.')
+        return None
+
+    def transfer_stage_to_production(self, model_name: str):
+        """Transfer the model from Staging to Production."""
+        try:
+            client = mlflow.tracking.MlflowClient()
+            latest_version = self.get_latest_model_version(model_name)
+            if latest_version:
+                client.transition_model_version_stage(
+                    name=model_name,
+                    version=latest_version,
+                    stage="Production"
+                )
+                logging.info(
+                    f'Model {model_name} {latest_version} moved to Production.'
+                    )
+            else:
+                logging.info(
+                    f'No model version to transition for {model_name}.'
+                    )
+        except Exception as e:
+            logging.info('Error during model stage transfer: %s', e)
+            raise CustomException(e, sys)

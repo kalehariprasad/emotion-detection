@@ -65,7 +65,9 @@ jobs:
       - name: linting register model
         run: |
           flake8 src/models/register_model.py
-
+      - name: linting stage transaction
+        run: |
+          flake8 src\models\stage_transaction.py
       - name: Run pipeline with DVC
         env:
           DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
