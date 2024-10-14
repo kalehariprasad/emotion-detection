@@ -80,4 +80,4 @@ jobs:
         env:
           DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
         run: |
-          python -m unittest test/test_model.py
+          python -m unittest discover -s test -p "test_model.py"
