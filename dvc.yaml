@@ -59,13 +59,6 @@ stages:
     - src/exeption/__init__.py
     - src/utils/__init__.py
     - reports/
-  model_transaction:
-    cmd: python src/models/stage_transaction.py
-    deps:
-    - src/models/stage_transaction.py
-    - src/custom_logging/__init__.py
-    - src/exeption/__init__.py
-    - src/utils/__init__.py
-  
+
  
 
