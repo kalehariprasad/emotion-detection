@@ -9,6 +9,7 @@ import pickle
 
 
 class TestModelLoading(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         # Set up DagsHub credentials for MLflow tracking
@@ -31,15 +32,24 @@ class TestModelLoading(unittest.TestCase):
         cls.new_model_version = cls.get_latest_model_version(
             cls.new_model_name
             )
-        cls.new_model = mlflow.pyfunc.load_model(cls.new_model_uri)
+        if cls.new_model_version is None:
+            raise ValueError("Could not retrieve the latest model version.")
+
+        cls.new_model_uri = (
+                f'models:/{cls.new_model_name}/'
+                f'{cls.new_model_version}'
+            )
+        try:
+            cls.new_model = mlflow.pyfunc.load_model(cls.new_model_uri)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load model: {e}")
+
         # Load the vectorizer
         cls.vectorizer = pickle.load(
             open('models/objects/vectorizer.pkl', 'rb')
             )
         # Load holdout test data
-        cls.holdout_data = pd.read_csv(
-            'data/processed/test_bow.csv'
-            )
+        cls.holdout_data = pd.read_csv('data/processed/test_bow.csv')
 
     @staticmethod
     def get_latest_model_version(model_name, stage="Staging"):
@@ -61,10 +71,13 @@ class TestModelLoading(unittest.TestCase):
             )
         # Predict using the new model to verify the input and output shapes
         prediction = self.new_model.predict(input_df)
+
         # Verify the input shape
         self.assertEqual(
-            input_df.shape[1], len(self.vectorizer.get_feature_names_out())
-            )
+            input_df.shape[1], len(
+                self.vectorizer.get_feature_names_out())
+                )
+
         # Verify the output shape
         # (assuming binary classification with a single output)
         self.assertEqual(len(prediction), input_df.shape[0])
@@ -95,7 +108,7 @@ class TestModelLoading(unittest.TestCase):
         self.assertGreaterEqual(
             accuracy_new,
             expected_accuracy,
-            f'Accuracy should be  at least {expected_accuracy}'
+            f'Accuracy should be at least {expected_accuracy}'
             )
         self.assertGreaterEqual(
             precision_new,
@@ -108,7 +121,9 @@ class TestModelLoading(unittest.TestCase):
             f'Recall should be at least {expected_recall}'
             )
         self.assertGreaterEqual(
-            f1_new, expected_f1, f'F1 score should be at least {expected_f1}'
+            f1_new,
+            expected_f1,
+            f'F1 score should be at least {expected_f1}'
             )
 
 
