@@ -81,3 +81,17 @@ jobs:
           DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
         run: |
           python -m unittest discover -s test -p "test_model.py"
+      - name: Promote model to production
+        if: success()
+        env:
+          DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
+        run: |
+          python src/models/stage_transaction.py
+
+      - name: Run Flask app tests
+        if: success()
+        env:
+          DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
+        run: |
+          flake8 flask_app/app.py
+          python -m unittest test/test_flask_app.py
