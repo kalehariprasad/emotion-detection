@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy the source files
 COPY src/custom_logging/__init__.py ./custom_logging/
-COPY src/exception/__init__.py ./exception/
+COPY src/exeption/__init__.py ./exception/
 COPY requirements.txt ./
 
 # Install dependencies
