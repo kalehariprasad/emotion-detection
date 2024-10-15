@@ -94,4 +94,4 @@ jobs:
           DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
         run: |
           flake8 flask_app/app.py
-          python -m unittest test/test_flask_app.py
+          python -m unittest discover -s test -p "test_flask_app.py"
