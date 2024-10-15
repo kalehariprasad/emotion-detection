@@ -9,7 +9,7 @@ COPY src/exeption/__init__.py ./exception/
 COPY requirements.txt ./
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Expose the application port
 EXPOSE 5000
