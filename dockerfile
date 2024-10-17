@@ -7,6 +7,7 @@ WORKDIR /app
 COPY src/custom_logging/__init__.py ./custom_logging/
 COPY src/exeption/__init__.py ./exception/
 COPY requirements.txt ./
+COPY setup.py ./
 
 # Install dependencies
 RUN pip install -r requirements.txt
