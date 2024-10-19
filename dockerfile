@@ -6,6 +6,7 @@ WORKDIR /app
 # Copy the source files
 COPY src/custom_logging/__init__.py ./custom_logging/
 COPY src/exeption/__init__.py ./exception/
+COPY flask_app ./flask_app
 COPY requirements.txt ./
 COPY setup.py ./
 
