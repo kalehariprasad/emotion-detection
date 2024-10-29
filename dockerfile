@@ -3,7 +3,7 @@ FROM python:3.10-slim
 # Set the working directory
 WORKDIR /app
 COPY src ./src
-COPY src/utils/__init__.py ./utils/          
+COPY models ./models/         
 COPY flask_app ./flask_app                   
 COPY requirements.txt ./                      
 COPY setup.py ./                              
