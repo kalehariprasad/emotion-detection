@@ -38,8 +38,7 @@ stages:
     - src/exeption/__init__.py
     - src/utils/__init__.py
     - data/processed
-    outs:
-    - models/model
+    
   model_evaluation:
     cmd: python src/models/model_evaluation.py
     deps:
