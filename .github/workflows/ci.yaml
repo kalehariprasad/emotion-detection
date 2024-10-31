@@ -112,7 +112,7 @@ jobs:
     - name: docker build
       if: success()
       run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1 .
 
     - name: docker Push
       if: success()
