@@ -5,6 +5,7 @@ from src.exeption import CustomException
 from src.utils import Model
 from src.utils import DataHandler
 import mlflow
+from mlflow.models import infer_signature
 
 
 dagshub_token = os.getenv("DAGSHUB_PAT")
@@ -30,6 +31,7 @@ def main():
             test_data = data_handler.load_data('./data/processed/test_bow.csv')
             X_test = test_data.iloc[:, :-1].values
             y_test = test_data.iloc[:, -1].values
+            signature = infer_signature(X_test, clf.predict(X_test))
             metrics = model.evaluate_model(clf, X_test, y_test)
             model.save_metrics(metrics, 'reports/metrics.json')
             # Log metrics to MLflow
@@ -41,7 +43,7 @@ def main():
                 for param_name, param_value in params.items():
                     mlflow.log_param(param_name, param_value)
             # Log model to MLflow
-            mlflow.sklearn.log_model(clf, "model")
+            mlflow.sklearn.log_model(clf, "model", signature=signature)
             # Save model info
             model.save_model_info(
                 run.info.run_id, "model", 'reports/experiment_info.json'
