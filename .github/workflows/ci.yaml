@@ -101,17 +101,20 @@ jobs:
     steps:
     - name: checkout code 
       uses: actions/checkout@v3 
+
     - name: docker login
       if: success()
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME}}
         password: ${{ secrets.DOCKERHUB_TOKEN}}  
-      name: docker build
+  
+    - name: docker build
       if: success()
       run: |
         docker build -t ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1
-      name: docker Push
+
+    - name: docker Push
       if: success()
       run: |
         docker push ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1
