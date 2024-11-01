@@ -143,4 +143,4 @@ jobs:
 
           docker run -p 5000:5000 --name my-app \
           -e DAGSHUB_PAT=${{secrets.DAGSHUB_PAT}}\
-          ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1
+          ${{ secrets.DOCKERHUB_USERNAME}}\emotion:V1
