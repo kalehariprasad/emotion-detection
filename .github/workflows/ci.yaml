@@ -140,7 +140,4 @@ jobs:
         key: ${{secrets.EC2_SSH_KEY}}
         script: |
           docker pull ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1
-
-          docker run -p 5000:5000 --name my-app \
-          -e DAGSHUB_PAT=${{secrets.DAGSHUB_PAT}}\
-          ${{ secrets.DOCKERHUB_USERNAME}}\emotion:V1
+          docker run -p 5000:5000 --name my-app -e DAGSHUB_PAT=${{secrets.DAGSHUB_PAT}} ${{ secrets.DOCKERHUB_USERNAME}}/emotion:V1
