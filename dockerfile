@@ -1,5 +1,5 @@
 # Stage 1: Install dependencies in a temporary build image
-FROM python:3.10-slim as builder
+FROM python:3.10-slim AS builder
 
 WORKDIR /app
 COPY requirements.txt ./
