@@ -1,0 +1,37 @@
+# Ignore Python bytecode files
+**/__pycache__
+**/*.pyc
+**/*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+env/
+.venv/
+
+# Ignore system or IDE-specific files
+.DS_Store
+.idea/
+.vscode/
+
+# Ignore Docker-related files
+Dockerfile
+.dockerignore
+
+# Ignore test and coverage files
+tests/
+*.log
+*.bak
+*.swp
+
+# Ignore any temporary or cached files
+*.cache
+*.tar
+*.tgz
+*.gz
+*.zip
+*.tar.gz
+*.egg
+*.egg-info
+pip-wheel-metadata/
+*.whl
