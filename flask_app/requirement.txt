@@ -1,0 +1,12 @@
+# local package
+-e .
+
+# external requirements
+scikit-learn
+seaborn
+dagshub
+mlflow
+pandas 
+numpy
+nltk
+xgboost

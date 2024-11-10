@@ -2,11 +2,11 @@
 FROM python:3.10-slim AS builder
 
 WORKDIR /app
-COPY requirements.txt ./
+# Copy requirements.txt and setup.py into the image
+COPY flask_app/requirements.txt ./requirements.txt
 COPY setup.py ./setup.py
-# Install build dependencies
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
 # Stage 2: Final image, copy only the necessary files
 FROM python:3.10-slim
 
