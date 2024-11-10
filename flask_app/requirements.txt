@@ -3,8 +3,6 @@
 
 # external requirements
 scikit-learn
-seaborn
-dagshub
 mlflow
 pandas 
 numpy
