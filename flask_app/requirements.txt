@@ -7,4 +7,3 @@ mlflow
 pandas 
 numpy
 nltk
-xgboost

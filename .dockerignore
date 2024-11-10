@@ -19,7 +19,7 @@ Dockerfile
 .dockerignore
 
 # Ignore test and coverage files
-tests/
+test/
 *.log
 *.bak
 *.swp
