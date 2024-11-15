@@ -97,7 +97,7 @@ jobs:
           flake8 flask_app/app.py
           python -m unittest discover -s test -p "test_flask_app.py"
   docker-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
     needs: project-testing
     steps:
       - name: Checkout code
