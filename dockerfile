@@ -22,11 +22,10 @@ COPY setup.py ./setup.py
 # Copy the installed dependencies from the builder image
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 
-# Install gunicorn in the final image (if not already installed)
-RUN pip install --no-cache-dir gunicorn
+
 
 # Expose the application port
 EXPOSE 5000
 
-# Command to run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "app:app"]
+# Command to run the application (using full path for gunicorn)
+CMD ["/usr/local/bin/gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "app:app"]
