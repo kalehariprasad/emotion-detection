@@ -22,12 +22,8 @@ COPY setup.py ./setup.py
 # Copy the installed dependencies from the builder image
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 
-# Check if gunicorn is installed in the final image
-RUN if ! pip show gunicorn > /dev/null 2>&1; then echo "Gunicorn not found in final image"; else echo "Gunicorn found in final image"; fi
-
-# Ensure gunicorn is in PATH and print the path
-RUN which gunicorn || echo "Gunicorn not found in PATH"
-RUN echo "Gunicorn path is: $(which gunicorn)"
+# Install gunicorn in the final image (if not already installed)
+RUN pip install --no-cache-dir gunicorn
 
 # Expose the application port
 EXPOSE 5000
