@@ -34,10 +34,9 @@ def main():
             )
         data_handler.save_data(train_processed_data, train_processed_data_path)
         data_handler.save_data(test_processed_data, test_processed_data_path)
-<<<<<<< HEAD:src/data/data_preprocessing.py
-=======
+
         logging.info('Processed data saved to %s', data_path)
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0:src/data/data_prepeocessing.py
+
     except Exception as e:
         logging.info('Failed to complete the data transformation : %s', e)
         raise CustomException(e, sys)

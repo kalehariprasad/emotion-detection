@@ -105,16 +105,10 @@ class DataHandler:
     ) -> None:
         """Save the train and test datasets."""
         try:
-<<<<<<< HEAD
             # Create the directory if it doesn't exist
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
             data.to_csv(file_path, index=False)
             logging.info('Processed data  saved to %s', file_path)
-=======
-            os.makedirs(os.path.dirname(file_path), exist_ok=True)
-            data.to_csv(file_path, index=False)
-            logging.info('Data saved to %s', file_path)
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
         except Exception as e:
             logging.info(
                 'Unexpected error occurred while saving the data: %s', e)
