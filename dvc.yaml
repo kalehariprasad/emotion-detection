@@ -20,8 +20,7 @@ stages:
     - data/raw
     outs:
     - data/interim
-<<<<<<< HEAD
-  feature engineering:
+  feature_engineering:
     cmd: python src/features/feature_engineering.py
     deps:
     - src/features/feature_engineering.py
@@ -31,8 +30,7 @@ stages:
     - data/interim
     outs:
     - data/processed
-    - models/objects
-  model training:
+  model_training:
     cmd: python src/models/train_model.py
     deps:
     - src/models/train_model.py
@@ -40,19 +38,27 @@ stages:
     - src/exeption/__init__.py
     - src/utils/__init__.py
     - data/processed
-    outs:
-    - models/model
- 
-=======
-    feature_engineering:
-    cmd: python src/data/data_prepeocessing.py
+    
+  model_evaluation:
+    cmd: python src/models/model_evaluation.py
     deps:
-    - src/data/data_prepeocessing.py
+    - src/models/model_evaluation.py
     - src/custom_logging/__init__.py
     - src/exeption/__init__.py
     - src/utils/__init__.py
-    - data/raw
+    - models/model
     outs:
-    - data/interim
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
+    - reports/
+  model_registreation:
+    cmd: python src/models/register_model.py
+    deps:
+    - src/models/register_model.py
+    - src/custom_logging/__init__.py
+    - src/exeption/__init__.py
+    - src/utils/__init__.py
+    - reports/
+
+ 
+
+
 
