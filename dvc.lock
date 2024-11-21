@@ -9,23 +9,16 @@ stages:
       size: 586
     - path: src/data/data_injection.py
       hash: md5
-
-      md5: 82db549f9d2f258bbc2668e862caad97
-      size: 1285
-
-      md5: 4aad9bb7e71cf67adf08d13d4cc4db49
-      size: 1262
+      md5: 9e5b09a3c37734be4f090632429f68b7
+      size: 1345
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
-      md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
-      size: 13137
-
-      md5: 2ff835bb32f7ca2a8511242268c495f7
-      size: 7355
+      md5: 3e9f795aede4144c2110ae5402a1b36c
+      size: 16674
     params:
       params.yaml:
         data_ingestion.test_size: 0.25
@@ -49,23 +42,16 @@ stages:
       size: 586
     - path: src/data/data_preprocessing.py
       hash: md5
-      md5: ff61a39f2bc2f40aafe06d5826374d25
-      size: 1480
-
-      md5: 268fd00c7970900eba8886ef8743f325
-      size: 1555
+      md5: 0b11a56d5cca1a2d67da12a8f50d25e8
+      size: 1610
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
-      md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
-      size: 13137
-
-      md5: 2ff835bb32f7ca2a8511242268c495f7
-      size: 7355
-
+      md5: 3e9f795aede4144c2110ae5402a1b36c
+      size: 16674
     outs:
     - path: data/interim
       hash: md5
@@ -84,7 +70,7 @@ stages:
       hash: md5
       md5: 9ed3123c693209648be314b17311d447
       size: 586
-    - path: src/exeption/__init__.py
+    - path: src/exeption/__init__.py    # No changes to spelling
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
@@ -107,6 +93,7 @@ stages:
       md5: b500f74abdac42017a822811bac1f65d.dir
       size: 140847
       nfiles: 2
+
   model training:
     cmd: python src/models/train_model.py
     deps:
@@ -119,7 +106,7 @@ stages:
       hash: md5
       md5: 9ed3123c693209648be314b17311d447
       size: 586
-    - path: src/exeption/__init__.py
+    - path: src/exeption/__init__.py    # No changes to spelling
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
@@ -137,3 +124,57 @@ stages:
       md5: 437fe6e6e639ce5b371539b6e40875fe.dir
       size: 40717
       nfiles: 1
+  feature_engineering:
+    cmd: python src/features/feature_engineering.py
+    deps:
+    - path: data/interim
+      hash: md5
+      md5: 4616fdeb50815ff81106f3ec9d0fa432.dir
+      size: 572633
+      nfiles: 2
+    - path: src/custom_logging/__init__.py
+      hash: md5
+      md5: 9ed3123c693209648be314b17311d447
+      size: 586
+    - path: src/exeption/__init__.py
+      hash: md5
+      md5: 4abe8ec98542ccc960ae477582dd3bc6
+      size: 1056
+    - path: src/features/feature_engineering.py
+      hash: md5
+      md5: 64750d6a2aee848c1988255f1cdf6139
+      size: 1372
+    - path: src/utils/__init__.py
+      hash: md5
+      md5: 3e9f795aede4144c2110ae5402a1b36c
+      size: 16674
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: b98a1093fdb9f8678f7f79ee9400138b.dir
+      size: 103798910
+      nfiles: 2
+  model_training:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: b98a1093fdb9f8678f7f79ee9400138b.dir
+      size: 103798910
+      nfiles: 2
+    - path: src/custom_logging/__init__.py
+      hash: md5
+      md5: 9ed3123c693209648be314b17311d447
+      size: 586
+    - path: src/exeption/__init__.py
+      hash: md5
+      md5: 4abe8ec98542ccc960ae477582dd3bc6
+      size: 1056
+    - path: src/models/train_model.py
+      hash: md5
+      md5: aab92265492d2b00f53d149f049807e8
+      size: 744
+    - path: src/utils/__init__.py
+      hash: md5
+      md5: 3e9f795aede4144c2110ae5402a1b36c
+      size: 16674
