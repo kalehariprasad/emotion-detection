@@ -25,4 +25,4 @@ COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/pytho
 EXPOSE 5000
 
 # Command to run the application
-CMD ["python", "flask_app/app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "app:app"]
