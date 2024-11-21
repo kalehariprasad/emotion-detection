@@ -1,3 +1,4 @@
+
 import os
 import sys
 import pandas as pd
@@ -7,6 +8,7 @@ import re
 import string
 import nltk
 import json
+import mlflow
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import (
@@ -326,6 +328,7 @@ class Model:
     def save_metrics(self, metrics: dict, file_path: str) -> None:
         """Save the evaluation metrics to a JSON file."""
         try:
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
             with open(file_path, 'w') as file:
                 json.dump(metrics, file, indent=4)
             logging.info('Metrics saved to %s', file_path)
@@ -339,9 +342,95 @@ class Model:
         """Save the model run ID and path to a JSON file."""
         try:
             model_info = {'run_id': run_id, 'model_path': model_path}
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
             with open(file_path, 'w') as file:
                 json.dump(model_info, file, indent=4)
             logging.info('Model info saved to %s', file_path)
         except Exception as e:
             logging.info('Error occurred while saving the model info: %s', e)
+            raise CustomException(e, sys)
+
+
+class MLFlowInstance:
+    def __init__(self):
+        pass
+
+    def load_model_info(self, file_path: str) -> dict:
+        """Load the model info from a JSON file."""
+        try:
+            with open(file_path, 'r') as file:
+                model_info = json.load(file)
+            logging.info('Model info loaded from %s', file_path)
+            return model_info
+        except FileNotFoundError:
+            logging.info('File not found: %s', file_path)
+            raise
+        except Exception as e:
+            logging.info(
+                'Unexpected error occurred while loading the model info: %s', e
+                )
+            raise CustomException(e, sys)
+
+    def register_model(self,  model_name: str, model_info: dict):
+        """Register the model to the MLflow Model Registry."""
+        try:
+            model_uri = (
+                f"runs:/{model_info['run_id']}/"
+                f"{model_info['model_path']}"
+            )
+            # Register the model
+            model_version = mlflow.register_model(model_uri, model_name)
+            # Transition the model to "Staging" stage
+            client = mlflow.tracking.MlflowClient()
+            client.transition_model_version_stage(
+                name=model_name,
+                version=model_version.version,
+                stage="Staging"
+            )
+            logging.info(
+                f'Model {model_name} version {model_version.version} .'
+            )
+        except Exception as e:
+            logging.info('Error during model registration: %s', e)
+            raise CustomException(e, sys)
+
+    def get_latest_model_version(self, model_name: str) -> str:
+        """Get the latest version of the model."""
+        client = mlflow.MlflowClient()
+        registered_models = client.search_registered_models(
+            filter_string=f"name='{model_name}'"
+            )
+        if registered_models:
+            model = registered_models[0]
+            if model.latest_versions:
+                latest_version = max(
+                    int(version.version) for version in model.latest_versions
+                    )
+                logging.info(
+                    f'Latest version of {model_name} is {latest_version}.'
+                    )
+                return str(latest_version)
+        logging.info(f'No versions found for model {model_name}.')
+        return None
+
+    def transfer_stage_to_production(self, model_name: str):
+        """Transfer the model from Staging to Production."""
+        try:
+            client = mlflow.tracking.MlflowClient()
+            latest_version = self.get_latest_model_version(model_name)
+            if latest_version:
+                client.transition_model_version_stage(
+                    name=model_name,
+                    version=latest_version,
+                    stage="Production"
+                )
+                logging.info(
+                    f'Model {model_name} {latest_version} moved to Production.'
+                    )
+            else:
+                logging.info(
+                    f'No model version to transition for {model_name}.'
+                    )
+        except Exception as e:
+            logging.info('Error during model stage transfer: %s', e)
             raise CustomException(e, sys)
