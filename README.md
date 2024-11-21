@@ -148,10 +148,3 @@ To securely manage environment variables, the following secrets are required in 
 - `EC2_SSH_KEY`
 - `EC2_USER`
 
-## How to Use
-
-### Step 1: Install Dependencies
-To get started with the project, install the required Python dependencies:
-
-```bash
-pip install -r requirements.txt
