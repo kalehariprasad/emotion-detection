@@ -23,9 +23,8 @@ COPY setup.py ./setup.py
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 
 
-
 # Expose the application port
 EXPOSE 5000
 
-# Command to run the application (using full path for gunicorn)
-CMD ["/usr/local/bin/gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "app:app"]
+# Command to run the application 
+CMD ["python", "flask_app/app.py"]
