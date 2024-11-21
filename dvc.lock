@@ -65,13 +65,12 @@ stages:
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
-<<<<<<< HEAD
       md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
       size: 13137
-=======
+
       md5: 2ff835bb32f7ca2a8511242268c495f7
       size: 7355
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
+
     outs:
     - path: data/interim
       hash: md5
