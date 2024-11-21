@@ -9,26 +9,23 @@ stages:
       size: 586
     - path: src/data/data_injection.py
       hash: md5
-<<<<<<< HEAD
+
       md5: 82db549f9d2f258bbc2668e862caad97
       size: 1285
-=======
+
       md5: 4aad9bb7e71cf67adf08d13d4cc4db49
       size: 1262
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
       size: 1056
     - path: src/utils/__init__.py
       hash: md5
-<<<<<<< HEAD
       md5: 4cc1b78164f221cf6bbae62c1fa9a5bf
       size: 13137
-=======
+
       md5: 2ff835bb32f7ca2a8511242268c495f7
       size: 7355
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     params:
       params.yaml:
         data_ingestion.test_size: 0.25
@@ -52,13 +49,11 @@ stages:
       size: 586
     - path: src/data/data_preprocessing.py
       hash: md5
-<<<<<<< HEAD
       md5: ff61a39f2bc2f40aafe06d5826374d25
       size: 1480
-=======
+
       md5: 268fd00c7970900eba8886ef8743f325
       size: 1555
->>>>>>> 2fe5de3d94f2ca2b16301d96a5f4b688bc958dd0
     - path: src/exeption/__init__.py
       hash: md5
       md5: 4abe8ec98542ccc960ae477582dd3bc6
