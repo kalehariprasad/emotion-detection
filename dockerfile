@@ -21,6 +21,9 @@ COPY setup.py ./setup.py
 # Copy the installed dependencies from the builder image
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 
+# Check if gunicorn is installed, if not print a message
+RUN if ! pip show gunicorn; then echo "Gunicorn is NOT installed"; else echo "Gunicorn is installed"; fi
+
 # Expose the application port
 EXPOSE 5000
 
